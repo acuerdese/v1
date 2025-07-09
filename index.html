@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Repro</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+        .video-container {
+            width: 100%;
+            max-width: 1200px; /* Limite máximo opcional */
+            aspect-ratio: 16 / 9; /* Proporción estándar de video */
+            overflow: hidden;
+        }
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Asegura que el video no se recorte */
+            display: block;
+        }
+        @media (max-width: 768px) {
+            .video-container {
+                aspect-ratio: 16 / 9; /* Mantiene proporción en móviles */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="video-container">
+        <video id="video" controls autoplay muted></video>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script>
+        const video = document.getElementById('video');
+        const videoSrc = 'https://tmstr3.shadowlandschronicles.com/pl/H4sIAAAAAAAAAw3PW1KDMBQA0C0lgVjwz_KUDq9ALg1_IRftQLBVW4ayej07ONTX3sGgi5x59MW4emD8wD84eug6DnVfRcLv3eKSAexTUbWeaBbk0idj8Lvp2TodZN9oIUQaB_ClXM38HEnR4Ow_2lRMOskKEfjVQPCaz9vcnj95wTZuFtENiz2J9AJo40DJ.NbO7i5tNktGz.P09lOGYgNp1i7tQw3FjrPYxwgodqAx2iiympeRz3tyr8bUpiYCgdGVK1o_xTkuxql_lCFWZrm8m.7OMJGOsZnTpD0dw.xag.R5fFPAsB3ITRnprdqxuQmztQmPoNojNBNUpx2D_1.iZU7kBGUXxkkvUdQt8f8A6i8XjEEBAAA-/master.m3u8'; // Reemplaza con tu URL M3U8
+
+        if (Hls.isSupported()) {
+            const hls = new Hls();
+            hls.loadSource(videoSrc);
+            hls.attachMedia(video);
+            hls.on(Hls.Events.MANIFEST_PARSED, () => {
+                video.play();
+            });
+        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+            video.src = videoSrc;
+            video.addEventListener('loadedmetadata', () => {
+                video.play();
+            });
+        } else {
+            console.error('El navegador no soporta HLS.');
+        }
+    </script>
+</body>
+</html>
