@@ -1,95 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <iframe width="1280" height="720" src="//ok.ru/videoembed/9890780613207?nochat=1" frameborder="0" allow="autoplay" allowfullscreen></iframe>
+   
+     <!DOCTYPE html>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dark Mode with Random YouTube Video</title>
+    <title>Dark/Light Mode Slider</title>
     <style>
+         <iframe width="640" height="360" src="//ok.ru/videoembed/9890780613207?nochat=1" frameborder="0" allow="autoplay" allowfullscreen></iframe>
         body {
             margin: 0;
             padding: 20px;
             font-family: Arial, sans-serif;
-            background-color: #1a1a1a;
-            color: #ffffff;
-            transition: all 0.3s ease;
+            background: #1a1a1a;
+            color: #fff;
+            transition: all 0.3s;
         }
         .light-mode {
-            background-color: #ffffff;
-            color: #000000;
+            background: #fff;
+            color: #000;
         }
         .container {
             max-width: 800px;
             margin: 0 auto;
             text-align: center;
         }
-        .toggle-button {
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
-        .toggle-button:hover {
-            background-color: #45a049;
-        }
-        .video-container {
+        .slider-container {
+            display: inline-block;
             position: relative;
-            padding-bottom: 56.25%; /* 16:9 aspect ratio */
-            height: 0;
-            overflow: hidden;
+            width: 60px;
+            height: 30px;
         }
-        .video-container iframe {
+        .slider {
             position: absolute;
+            cursor: pointer;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
+            right: 0;
+            bottom: 0;
+            background: #ccc;
+            border-radius: 30px;
+            transition: 0.3s;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 24px;
+            width: 24px;
+            left: 3px;
+            bottom: 3px;
+            background: #fff;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+        input:checked + .slider {
+            background: #4CAF50;
+        }
+        input:checked + .slider:before {
+            transform: translateX(30px);
+        }
+        input {
+            display: none;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Random YouTube Video</h1>
-        <button class="toggle-button" onclick="toggleTheme()">Toggle Light/Dark Mode</button>
-        <div class="video-container">
-            <iframe id="youtube-video" src="" frameborder="0" allowfullscreen></iframe>
-        </div>
+        <h1>Toggle Theme</h1>
+        <label class="slider-container">
+            <input type="checkbox" id="theme-toggle" onchange="toggleTheme()">
+            <span class="slider"></span>
+        </label>
     </div>
-
     <script>
-        // Array of YouTube video IDs
-        const videoIds = [
-            'dQw4w9WgXcQ', // Example: Rick Astley - Never Gonna Give You Up
-            '3JZ_D3ELwOQ', // Example: Random music video
-            'kJQP7kiw5Fk', // Example: Another random video
-            // Add more video IDs as needed
-        ];
-
-        // Function to select a random video
-        function setRandomVideo() {
-            const randomIndex = Math.floor(Math.random() * videoIds.length);
-            const videoId = videoIds[randomIndex];
-            const iframe = document.getElementById('youtube-video');
-            iframe.src = `https://www.youtube.com/embed/${videoId}`;
-        }
-
-        // Function to toggle between dark and light mode
         function toggleTheme() {
             document.body.classList.toggle('light-mode');
             localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
         }
-
-        // Check for saved theme preference or default to dark
-        window.onload = function() {
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'light') {
+        window.onload = () => {
+            if (localStorage.getItem('theme') === 'light') {
                 document.body.classList.add('light-mode');
+                document.getElementById('theme-toggle').checked = true;
             }
-            setRandomVideo();
         };
     </script>
 </body>
