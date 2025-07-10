@@ -2,64 +2,7 @@
 <html lang="es">
 <head>
     <IFRAME SRC="https://goodstream.one/embed-bz685udb5fxi.html" FRAMEBORDER=0 MARGINWIDTH=0 MARGINHEIGHT=0 SCROLLING=NO WIDTH=640 HEIGHT=360 allowfullscreen></IFRAME>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Repro</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            overflow: hidden;
-        }
-        .video-container {
-            width: 100%;
-            max-width: 1200px; /* Limite máximo opcional */
-            aspect-ratio: 16 / 9; /* Proporción estándar de video */
-            overflow: hidden;
-        }
-        video {
-            width: 100%;
-            height: 100%;
-            object-fit: contain; /* Asegura que el video no se recorte */
-            display: block;
-        }
-        @media (max-width: 768px) {
-            .video-container {
-                aspect-ratio: 16 / 9; /* Mantiene proporción en móviles */
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="video-container">
-        <video id="video" controls autoplay muted></video>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-    <script>
-        const video = document.getElementById('video');
-        const videoSrc = 'https://uqloads.xyz/stream/ZTq3le12MvnEoU4FSGC-pg/kjhhiuahiuhgihdf/1752077630/53905350/index-v1-a1.m3u8'; // Reemplaza con tu URL M3U8
-
-        if (Hls.isSupported()) {
-            const hls = new Hls();
-            hls.loadSource(videoSrc);
-            hls.attachMedia(video);
-            hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                video.play();
-            });
-        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-            video.src = videoSrc;
-            video.addEventListener('loadedmetadata', () => {
-                video.play();
-            });
-        } else {
-            console.error('El navegador no soporta HLS.');
-        }
+    
     </script>
 </body>
 </html>
